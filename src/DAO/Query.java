@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package appointmentapp_tuannguyen;
+package DAO;
 
-import static appointmentapp_tuannguyen.DBConnection.conn;
+import DAO.DBConnection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 
 /**
  *
@@ -23,7 +24,7 @@ public class Query {
         
         try {
             // Create Statement object
-            stmt = conn.createStatement();
+            stmt = DBConnection.conn.createStatement();
             
             // Determine query execution
             if(query.toLowerCase().startsWith("select")) {

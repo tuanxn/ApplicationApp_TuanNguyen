@@ -5,9 +5,8 @@
  */
 package appointmentapp_tuannguyen;
 
-import static appointmentapp_tuannguyen.DBConnection.conn;
+import DAO.*;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +24,7 @@ public class AppointmentApp_TuanNguyen extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
         
@@ -38,14 +37,14 @@ public class AppointmentApp_TuanNguyen extends Application {
      */
     public static void main(String[] args) {
         
-        int employeeID;
-        String employeeName, department, hireDate;
-        
-        // Create input
-        Scanner keyboard = new Scanner(System.in);
-        
-        System.out.print("Enter employee id: ");
-        employeeID = keyboard.nextInt();
+//        int employeeID;
+//        String employeeName, department, hireDate;
+//        
+//        // Create input
+//        Scanner keyboard = new Scanner(System.in);
+//        
+//        System.out.print("Enter employee id: ");
+//        employeeID = keyboard.nextInt();
         
 //        System.out.print("Enter employee name: ");
 //        employeeName = keyboard.nextLine();
@@ -64,28 +63,28 @@ public class AppointmentApp_TuanNguyen extends Application {
 //                                  "'" + department + "', " +
 //                                  "'" + hireDate + "')";
             
-            // Write SQL DELETE statement
-            String sqlStatement = "DELETE FROM employee_tbl WHERE Employee = " + String.valueOf(employeeID);
-
-            // Execute INSERT statement
-            Query.makeQuery(sqlStatement);
-             
-            // Write SQL statement
-            sqlStatement = "SELECT * FROM employee_tbl";
-            
-            // Execute statement and create ResultSet object
-            Query.makeQuery(sqlStatement);
-            ResultSet result = Query.getResult();
-            
-            // Retrieve all records
-            while(result.next()) {
-                System.out.println(result.getInt("Employee") + ", ");
-                System.out.println(result.getString("EmployeeName") + ", ");
-                System.out.println(result.getString("Department") + ", ");
-                System.out.println(result.getDate("HireDate") + ", ");
-                System.out.println(result.getTime("HireDate") + ", ");
-                System.out.println();
-            }
+//            // Write SQL DELETE statement
+//            String sqlStatement = "DELETE FROM employee_tbl WHERE Employee = " + String.valueOf(employeeID);
+//
+//            // Execute INSERT statement
+//            DAO.Query.makeQuery(sqlStatement);
+//             
+//            // Write SQL statement
+//            sqlStatement = "SELECT * FROM employee_tbl";
+//            
+//            // Execute statement and create ResultSet object
+//            Query.makeQuery(sqlStatement);
+//            ResultSet result = Query.getResult();
+//            
+//            // Retrieve all records
+//            while(result.next()) {
+//                System.out.println(result.getInt("Employee") + ", ");
+//                System.out.println(result.getString("EmployeeName") + ", ");
+//                System.out.println(result.getString("Department") + ", ");
+//                System.out.println(result.getDate("HireDate") + ", ");
+//                System.out.println(result.getTime("HireDate") + ", ");
+//                System.out.println();
+//            }
             
             
             launch(args);
