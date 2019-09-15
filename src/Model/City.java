@@ -28,6 +28,63 @@ public class City {
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdateBy = lastUpdateBy;
+        
+    }
+        
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+        
+    public String getCity() {
+        return city;
+    }
+    
+    public void setCity(String city) {
+        this.city = city;
+    }
+    
+    public int getCountryId() {
+        return countryId;
+    }
+    
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
+    }
+    
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+    
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
+    
+    public String getCreatedBy() {
+        return createdBy;
+    }
+    
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+    
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+    
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+    
+    public String getLastUpdateBy() {
+        return lastUpdateBy;
+    }
+    
+    public void setLastUpdateBy(String lastUpdateBy) {
+        this.lastUpdateBy = lastUpdateBy;
     }
     
 }

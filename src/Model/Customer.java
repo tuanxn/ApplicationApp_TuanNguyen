@@ -31,4 +31,68 @@ public class Customer {
         this.lastUpdate = lastUpdate;
         this.lastUpdateBy = lastUpdateBy;
     }
+    
+    public int getCustomerId() {
+        return customerId;
+    }
+    
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+    
+    public String getCustomerName() {
+        return customerName;
+    }
+    
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+    
+    public int getAddressId() {
+        return addressId;
+    }
+    
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+    
+    public boolean getActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+    
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
+    
+    public String getCreatedBy() {
+        return createdBy;
+    }
+    
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+    
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+    
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+    
+    public String getLastUpdateBy() {
+        return lastUpdateBy;
+    }
+    
+    public void setLastUpdateBy(String lastUpdateBy) {
+        this.lastUpdateBy = lastUpdateBy;
+    }
 }
