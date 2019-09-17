@@ -24,7 +24,7 @@ public class AppointmentApp_TuanNguyen extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/Login.fxml"));
         
         Scene scene = new Scene(root);
         
