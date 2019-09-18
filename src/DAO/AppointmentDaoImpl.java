@@ -89,6 +89,41 @@ public class AppointmentDaoImpl {
         return allAppointments;
     }
     
+    public static ObservableList<Appointment> getUserAppointments(int userId) throws SQLException, Exception{
+        ObservableList<Appointment> allUserAppointments=FXCollections.observableArrayList();    
+        DBConnection.makeConnection();
+            String sqlStatement="SELECT * from appointment WHERE userId = '" + userId + "'";          
+            Query.makeQuery(sqlStatement);
+            ResultSet result=Query.getResult();
+             while(result.next()){
+                int appointmentId=result.getInt("appointmentId");
+                int customerId=result.getInt("customerId");
+                String title=result.getString("title");
+                String description=result.getString("description");
+                String location=result.getString("location");
+                String contact=result.getString("contact");
+                String type=result.getString("type");
+                String url=result.getString("url");
+                String start=result.getString("start");
+                String end=result.getString("end");
+                String createDate=result.getString("createDate");
+                String createdBy=result.getString("createdBy");
+                String lastUpdate=result.getString("lastUpdate");
+                String lastUpdateby=result.getString("lastUpdateBy");              
+                Calendar startCalendar=stringToCalendar(start);
+                Calendar endCalendar=stringToCalendar(end);
+                Calendar createDateCalendar=stringToCalendar(createDate);
+                Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
+                Appointment appointmentResult = new Appointment(appointmentId, customerId, userId, title, description, location, contact, type, url, startCalendar, endCalendar, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
+                appointmentResult.setCustomerName(customerId);
+                appointmentResult.setStartString(startCalendar);
+                appointmentResult.setEndString(endCalendar);
+                allUserAppointments.add(appointmentResult);
+            }
+        DBConnection.closeConnection();
+        return allUserAppointments;
+    }    
+    
     public static void addAppointment(int customerId, int userId, String title, String description, String location, String contact, String type, String url, Calendar start, Calendar end, String createdBy, String lastUpdateBy) throws SQLException, Exception{
         DBConnection.makeConnection();
             

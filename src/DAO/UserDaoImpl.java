@@ -51,6 +51,32 @@ public class UserDaoImpl{
         return null;
     }
     
+    public static User getUser(int userId) throws SQLException, Exception{
+        DBConnection.makeConnection();
+        String sqlStatement="select * FROM user WHERE userId  = '" + userId+ "'";
+        Query.makeQuery(sqlStatement);
+           User userResult;
+           ResultSet result=Query.getResult();
+           while(result.next()){
+  
+                String userName=result.getString("userName");
+                String password=result.getString("password");
+                int active=result.getInt("active"); 
+                if(active==1) act=true;
+                String createDate=result.getString("createDate");
+                String createdBy=result.getString("createdBy");
+                String lastUpdate=result.getString("lastUpdate");
+                String lastUpdateby=result.getString("lastUpdateBy");              
+                Calendar createDateCalendar=stringToCalendar(createDate);
+                Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
+                userResult= new User(userId, userName, password, act, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
+                return userResult;
+                
+           }
+             DBConnection.closeConnection();
+        return null;
+    }    
+    
     public static ObservableList<User> getAllUsers() throws SQLException, Exception{
         ObservableList<User> allUsers=FXCollections.observableArrayList();    
         DBConnection.makeConnection();

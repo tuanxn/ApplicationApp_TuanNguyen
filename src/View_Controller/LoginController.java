@@ -40,10 +40,6 @@ public class LoginController implements Initializable {
     private TextField password;
     
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-    @FXML
-    private Button test;
-    @FXML
-    private Label test2;
 
     /**
      * Initializes the controller class.

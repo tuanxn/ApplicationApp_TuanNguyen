@@ -37,4 +37,10 @@ public class TimeFiles {
        return localFormat.format(time.getTime());
    }
     
+   // Method to format the appointment times for easier viewing in tables
+   public static String FormatForAppointmentTable(Calendar appointmentTime) throws ParseException{
+       SimpleDateFormat appointmentFormat = new SimpleDateFormat("MM/dd/yyyy  HH:mm");
+       return appointmentFormat.format(appointmentTime.getTime());
+   }
+   
 }

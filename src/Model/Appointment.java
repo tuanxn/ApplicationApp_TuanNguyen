@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Utilities.TimeFiles;
 import java.util.Calendar;
 
 /**
@@ -21,12 +22,16 @@ public class Appointment {
     private String contact;
     private String type;
     private String url;
+    private String startString;
     private Calendar start;
+    private String endString;
     private Calendar end;
     private Calendar createDate;
     private String createdBy;
     private Calendar lastUpdate;
     private String lastUpdateBy;
+    private String customerName;
+    private String userName;
     
     public Appointment(int appointmentId, int customerId, int userId, String title, String description, String location, String contact, String type, String url, Calendar start, Calendar end, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
         this.appointmentId = appointmentId;
@@ -118,6 +123,14 @@ public class Appointment {
         this.url = url;
     }
     
+    public String getStartString() {
+        return startString;
+    }
+    
+    public void setStartString(Calendar appointmentStart) {
+        this.startString = TimeFiles.FormatForAppointmentTable(appointmentStart);
+    }    
+    
     public Calendar getStart() {
         return start;
     }
@@ -125,6 +138,14 @@ public class Appointment {
     public void setStart(Calendar start) {
         this.start = start;
     }
+    
+    public String getEndString() {
+        return endString;
+    }
+    
+    public void setEndString(Calendar appointmentEnd) {
+        this.endString = TimeFiles.FormatForAppointmentTable(appointmentEnd);
+    }          
     
     public Calendar getEnd() {
         return end;
@@ -165,4 +186,27 @@ public class Appointment {
     public void setLastUpdateBy(String lastUpdateBy) {
         this.lastUpdateBy = lastUpdateBy;
     }
+    
+    public String getCustomerName() {
+        return customerName;
+    }
+    
+    public void setCustomerName(int customerId) throws Exception{
+        Customer customer=DAO.CustomerDaoImpl.getCustomer(customerId);
+        if(customer != null) {
+            this.customerName = customer.getCustomerName();
+        }
+    }    
+    
+    public String getUserName() {
+        return userName;
+    }
+    
+    public void setUserName(int userId) throws Exception{
+        User user=DAO.UserDaoImpl.getUser(userId);
+        if(user != null) {
+            this.userName = user.getUserName();
+        }
+    }     
+    
 }

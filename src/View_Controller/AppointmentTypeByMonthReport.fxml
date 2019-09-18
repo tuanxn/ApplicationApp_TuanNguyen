@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="342.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentTypeByMonthReportController">
+   <children>
+      <Label layoutX="26.0" layoutY="59.0" text="Number of Appointment Types By Month">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <TableView fx:id="AppointTypeTable" layoutX="26.0" layoutY="134.0" prefHeight="180.0" prefWidth="312.0">
+        <columns>
+          <TableColumn fx:id="appointmentType" prefWidth="142.0" text="Appointment Type" />
+          <TableColumn fx:id="numberOfTypes" prefWidth="168.0" text="Number of Appointments" />
+        </columns>
+      </TableView>
+      <ComboBox fx:id="month" layoutX="26.0" layoutY="95.0" prefWidth="150.0" promptText="Select Month" />
+      <Button layoutX="26.0" layoutY="26.0" mnemonicParsing="false" onAction="#backToReportScreen" text="Report Screen" />
+   </children>
+</AnchorPane>
