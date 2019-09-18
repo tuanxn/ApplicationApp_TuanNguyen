@@ -5,11 +5,7 @@
  */
 package appointmentapp_tuannguyen;
 
-import DAO.*;
-import java.sql.ResultSet;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +17,9 @@ import javafx.stage.Stage;
  * @author tuanxn
  */
 public class AppointmentApp_TuanNguyen extends Application {
+    
+    // Global variable to provide context for logged in user
+    public static User loggedInUser;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -36,7 +35,6 @@ public class AppointmentApp_TuanNguyen extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
 //        int employeeID;
 //        String employeeName, department, hireDate;
 //        
@@ -53,8 +51,8 @@ public class AppointmentApp_TuanNguyen extends Application {
 //        System.out.print("Enter hireDate: ");
 //        hireDate = keyboard.nextLine();
         
-        try {
-            DBConnection.makeConnection();
+//        try {
+//            DBConnection.makeConnection();
             
             // Write SQL Insert statement
 //            String sqlStatement = "INSERT INTO employee_tbl(EmployeeName, Department, HireDate)" +
@@ -88,11 +86,11 @@ public class AppointmentApp_TuanNguyen extends Application {
             
             
             launch(args);
-            DBConnection.closeConnection();
-        } catch (Exception ex) {
-            System.out.println("Error: " + ex.getMessage());
-            Logger.getLogger(AppointmentApp_TuanNguyen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//            DBConnection.closeConnection();
+//        } catch (Exception ex) {
+//            System.out.println("Error: " + ex.getMessage());
+//            Logger.getLogger(AppointmentApp_TuanNguyen.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
 }

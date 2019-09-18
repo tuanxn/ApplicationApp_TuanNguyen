@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  *
@@ -22,4 +23,18 @@ public class TimeFiles {
         calendar.setTime(date);
         return calendar;
    } 
+    
+   public static String ConvertToGMT(Calendar time) throws ParseException{
+       
+       SimpleDateFormat gmtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       gmtFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+       return gmtFormat.format(time.getTime());
+   }
+   
+   public static String ConvertToLocalTime(Calendar time) throws ParseException {
+       SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       localFormat.setTimeZone(TimeZone.getDefault());
+       return localFormat.format(time.getTime());
+   }
+    
 }
