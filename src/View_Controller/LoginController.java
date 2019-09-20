@@ -8,6 +8,11 @@ package View_Controller;
 import Model.User;
 import Utilities.TimeFiles;
 import appointmentapp_tuannguyen.AppointmentApp_TuanNguyen;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.errorAlert;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.loggedInUser;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CustomerList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Locale;
@@ -38,8 +43,6 @@ public class LoginController implements Initializable {
     private TextField userName;
     @FXML
     private TextField password;
-    
-    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 
     /**
      * Initializes the controller class.
@@ -67,7 +70,15 @@ public class LoginController implements Initializable {
                 
                 // Assign logged in User to the global variable loggedInUser
                 // This will provide context to who is logged in during the session
-                AppointmentApp_TuanNguyen.loggedInUser = retrievedUser;
+                loggedInUser = retrievedUser;
+                UserList = DAO.UserDaoImpl.getAllUsers();
+                
+                // Since country, city, and address cascade (in that order) into Customer, we must load those first
+                
+                
+                CustomerList = DAO.CustomerDaoImpl.getAllCustomers();
+                // Since user and customer list are used in appointment list, we must get those first
+                AppointmentList = DAO.AppointmentDaoImpl.getAllAppointments();
                 
                 Parent parent = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
                 Scene part_screen_scene = new Scene(parent);
@@ -81,6 +92,11 @@ public class LoginController implements Initializable {
             errorAlert.showAndWait();
         }
         
+    }
+
+    @FXML
+    private void exitButton(ActionEvent event) {
+        System.exit(0);
     }
     
 }

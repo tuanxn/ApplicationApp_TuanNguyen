@@ -5,11 +5,9 @@
  */
 package View_Controller;
 
-import Model.*;
-import appointmentapp_tuannguyen.AppointmentApp_TuanNguyen;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.loggedInUser;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,10 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
@@ -31,48 +25,18 @@ import javafx.stage.Stage;
  */
 public class MainScreenController implements Initializable {
 
-    @FXML
-    private TableView<Appointment> AppointmentTable;
-    @FXML
-    private TableColumn<Appointment, Calendar> appointmentStart;
-    @FXML
-    private TableColumn<Appointment, Calendar> appointmentEnd;
-    @FXML
-    private TableColumn<Appointment, String> appointmentCustomer;
-    @FXML
-    private TableColumn<Appointment, String> appointmentTitle;
-    @FXML
-    private TableColumn<Appointment, String> appointmentType;
-    @FXML
-    private ComboBox<String> monthFilter;
-    @FXML
-    private ComboBox<String> weekFilter;
+    // Create flag to indicate whether tableviews are updated
+    // updated flag will be set to false after a record in any table is updated
+    // updated flag will be set to true if the flag is false and we access a tableview
+    static boolean updated;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        //Populate Main Screen table with upcoming user appointments
-        appointmentStart.setCellValueFactory(new PropertyValueFactory<>("startString"));
-        appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("endString"));
-        appointmentCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        
-        try {
-            AppointmentTable.setItems(DAO.AppointmentDaoImpl.getUserAppointments(AppointmentApp_TuanNguyen.loggedInUser.getUserId()));
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
+    
     }    
-
-    @FXML
-    private void exitApplication(ActionEvent event) {
-        System.exit(0);
-    }
 
     @FXML
     private void editCustomers(ActionEvent event) throws IOException{
@@ -102,6 +66,19 @@ public class MainScreenController implements Initializable {
         app_stage.hide();
         app_stage.setScene(part_screen_scene);
         app_stage.show();          
+    }
+
+    @FXML
+    private void logOut(ActionEvent event) throws IOException{
+        
+        loggedInUser = null;
+        
+        Parent parent = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Scene part_screen_scene = new Scene(parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.hide();
+        app_stage.setScene(part_screen_scene);
+        app_stage.show();        
     }
     
 }

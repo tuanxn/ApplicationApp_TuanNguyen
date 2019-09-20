@@ -5,11 +5,18 @@
  */
 package appointmentapp_tuannguyen;
 
+import Model.Address;
+import Model.Appointment;
+import Model.City;
+import Model.Country;
+import Model.Customer;
 import Model.User;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 /**
@@ -20,6 +27,13 @@ public class AppointmentApp_TuanNguyen extends Application {
     
     // Global variable to provide context for logged in user
     public static User loggedInUser;
+    public static Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+    public static ObservableList<Customer> CustomerList;
+    public static ObservableList<Appointment> AppointmentList;
+    public static ObservableList<User> UserList;
+    public static ObservableList<Country> CountryList;
+    public static ObservableList<City> CityList;
+    public static ObservableList<Address> AddressList;    
     
     @Override
     public void start(Stage stage) throws Exception {

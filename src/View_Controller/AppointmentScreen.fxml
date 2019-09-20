@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -26,16 +25,17 @@
                   <TableColumn fx:id="appointmentUrl" prefWidth="76.0" text="URL" />
                </columns>
             </TableView>
-            <Button layoutX="887.0" layoutY="63.0" mnemonicParsing="false" onAction="#editAppointment" prefHeight="25.0" prefWidth="115.0" text="Edit Appointment" />
-            <Button layoutX="751.0" layoutY="63.0" mnemonicParsing="false" onAction="#addAppointment" text="Add Appointments" />
+            <Button fx:id="editAppointmentButton" layoutX="887.0" layoutY="63.0" mnemonicParsing="false" onAction="#editAppointment" prefHeight="25.0" prefWidth="115.0" text="Edit Appointment" />
+            <Button fx:id="addAppointmentButton" layoutX="751.0" layoutY="63.0" mnemonicParsing="false" onAction="#addAppointment" text="Add Appointments" />
             <Button layoutX="29.0" layoutY="22.0" mnemonicParsing="false" onAction="#backToMainScreen" prefHeight="25.0" prefWidth="98.0" text="Main Screen" />
             <Label layoutX="28.0" layoutY="67.0" text="All Appointments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <ComboBox fx:id="monthFilter" layoutX="151.0" layoutY="63.0" prefWidth="150.0" promptText="Filter by Month" />
-            <ComboBox fx:id="weekFilter" layoutX="322.0" layoutY="63.0" prefWidth="150.0" promptText="Filter by Week" />
+            <Button layoutX="153.0" layoutY="62.0" mnemonicParsing="false" onAction="#filterForWeek" prefHeight="25.0" prefWidth="52.0" text="Week" />
+            <Button layoutX="227.0" layoutY="62.0" mnemonicParsing="false" onAction="#filterForMonth" prefHeight="25.0" prefWidth="52.0" text="Month" />
+            <Button layoutX="299.0" layoutY="62.0" mnemonicParsing="false" onAction="#filterForAll" prefHeight="25.0" prefWidth="52.0" text="All" />
          </children>
       </AnchorPane>
    </children>

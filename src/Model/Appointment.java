@@ -7,6 +7,8 @@ package Model;
 
 import Utilities.TimeFiles;
 import java.util.Calendar;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CustomerList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
 
 /**
  *
@@ -127,7 +129,7 @@ public class Appointment {
         return startString;
     }
     
-    public void setStartString(Calendar appointmentStart) {
+    public void setStartString(Calendar appointmentStart) throws Exception{
         this.startString = TimeFiles.FormatForAppointmentTable(appointmentStart);
     }    
     
@@ -143,7 +145,7 @@ public class Appointment {
         return endString;
     }
     
-    public void setEndString(Calendar appointmentEnd) {
+    public void setEndString(Calendar appointmentEnd) throws Exception{
         this.endString = TimeFiles.FormatForAppointmentTable(appointmentEnd);
     }          
     
@@ -191,22 +193,38 @@ public class Appointment {
         return customerName;
     }
     
+//    public void setCustomerName(int customerId) throws Exception{
+//        Customer customer=DAO.CustomerDaoImpl.getCustomer(customerId);
+//        if(customer != null) {
+//            this.customerName = customer.getCustomerName();
+//        }
+//    }   
+    
     public void setCustomerName(int customerId) throws Exception{
-        Customer customer=DAO.CustomerDaoImpl.getCustomer(customerId);
-        if(customer != null) {
-            this.customerName = customer.getCustomerName();
+        for(Customer customer: CustomerList) {
+            if(customer.getCustomerId()==customerId) {
+                this.customerName = customer.getCustomerName();
+            }
         }
-    }    
+    }       
     
     public String getUserName() {
         return userName;
     }
     
+//    public void setUserName(int userId) throws Exception{
+//        User user=DAO.UserDaoImpl.getUser(userId);
+//        if(user != null) {
+//            this.userName = user.getUserName();
+//        }
+//    }     
+    
     public void setUserName(int userId) throws Exception{
-        User user=DAO.UserDaoImpl.getUser(userId);
-        if(user != null) {
-            this.userName = user.getUserName();
+        for(User user: UserList) {
+            if(user.getUserId()==userId) {
+                this.userName = user.getUserName();
+            }
         }
-    }     
+    }      
     
 }
