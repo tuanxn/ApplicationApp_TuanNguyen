@@ -82,14 +82,10 @@ public class AppointmentDaoImpl {
                 Calendar endCalendar=stringToCalendar(end);
                 Calendar createDateCalendar=stringToCalendar(createDate);
                 Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
-                Appointment appointmentResult = new Appointment(appointmentId, customerId, userId, title, description, location, contact, type, url, startCalendar, endCalendar, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
-                System.out.println("test");   
-                appointmentResult.setCustomerName(customerId);
-                System.out.println("test");                   
-                appointmentResult.setUserName(userId);
-                System.out.println("test");                   
-                appointmentResult.setStartString(startCalendar);
-                System.out.println("test");                   
+                Appointment appointmentResult = new Appointment(appointmentId, customerId, userId, title, description, location, contact, type, url, startCalendar, endCalendar, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby); 
+                appointmentResult.setCustomerName(customerId);          
+                appointmentResult.setUserName(userId);                 
+                appointmentResult.setStartString(startCalendar);                  
                 appointmentResult.setEndString(endCalendar);
                 allAppointments.add(appointmentResult);
             }
