@@ -36,6 +36,18 @@ public class TimeFiles {
        localFormat.setTimeZone(TimeZone.getDefault());
        return localFormat.format(time.getTime());
    }
+   
+   public static String ConvertToLocalTimeHours(Calendar time) throws ParseException {
+       SimpleDateFormat localFormat = new SimpleDateFormat("HH");
+       localFormat.setTimeZone(TimeZone.getDefault());
+       return localFormat.format(time.getTime());
+   }
+    
+   public static String ConvertToLocalTimeMinutes(Calendar time) throws ParseException {
+       SimpleDateFormat localFormat = new SimpleDateFormat("mm");
+       localFormat.setTimeZone(TimeZone.getDefault());
+       return localFormat.format(time.getTime());
+   }
     
    // Method to format the appointment times for easier viewing in tables
    public static String FormatForAppointmentTable(Calendar appointmentTime) throws ParseException{

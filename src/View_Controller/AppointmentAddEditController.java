@@ -8,12 +8,15 @@ package View_Controller;
 import Model.Appointment;
 import Model.Customer;
 import Model.User;
+import Utilities.TimeFiles;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CustomerList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,11 +63,15 @@ public class AppointmentAddEditController implements Initializable {
     @FXML
     private ComboBox<String> appointmentConsultant;
     @FXML
-    private ComboBox<String> endTime;
-    @FXML
     private DatePicker appointmentDate;
     @FXML
-    private ComboBox<String> startTime;
+    private ComboBox<String> endHour;
+    @FXML
+    private ComboBox<String> startHour;
+    @FXML
+    private ComboBox<String> startMin;
+    @FXML
+    private ComboBox<String> endMin;
     
     Appointment appointment;    
 
@@ -74,25 +81,9 @@ public class AppointmentAddEditController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        ObservableList<String> startTimeList = FXCollections.observableArrayList("8:00 am", "8:15 am", "8:30 am", "8:45 am",  
-                "9:00 am", "9:15 am", "9:30 am", "9:45 am",
-                "10:00 am", "10:15 am", "10:30 am", "10:45 am",
-                "11:00 am", "11:15 am", "11:30 am", "11:45 am",
-                "12:00 pm", "12:15 pm", "12:30 pm", "12:45 pm",
-                "1:00 pm", "1:15 pm", "1:30 pm", "1:45 pm",
-                "2:00 pm", "2:15 pm", "2:30 pm", "2:45 pm",
-                "3:00 pm", "3:15 pm", "3:30 pm", "3:45 pm",
-                "4:00 pm", "4:15 pm", "4:30 pm", "4:45 pm");
-        ObservableList<String> endTimeList = FXCollections.observableArrayList("8:15 am", "8:30 am", "8:45 am",  
-                "9:00 am", "9:15 am", "9:30 am", "9:45 am",
-                "10:00 am", "10:15 am", "10:30 am", "10:45 am",
-                "11:00 am", "11:15 am", "11:30 am", "11:45 am",
-                "12:00 pm", "12:15 pm", "12:30 pm", "12:45 pm",
-                "1:00 pm", "1:15 pm", "1:30 pm", "1:45 pm",
-                "2:00 pm", "2:15 pm", "2:30 pm", "2:45 pm",
-                "3:00 pm", "3:15 pm", "3:30 pm", "3:45 pm",
-                "4:00 pm", "4:15 pm", "4:30 pm", "4:45 pm",
-                "5:00 pm");
+        ObservableList<String> hourList = FXCollections.observableArrayList("00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+                                                                            "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
+        ObservableList<String> minList= FXCollections.observableArrayList("00", "15", "30", "45");
         ObservableList<String> consultantList = FXCollections.observableArrayList();
         ObservableList<String> customerList = FXCollections.observableArrayList();
         
@@ -104,13 +95,15 @@ public class AppointmentAddEditController implements Initializable {
             customerList.add(customer.getCustomerName());
         }
         
-        startTime.setItems(startTimeList);
-        endTime.setItems(endTimeList);
+        startHour.setItems(hourList);
+        endHour.setItems(hourList);
+        startMin.setItems(minList);
+        endMin.setItems(minList);
         appointmentCustomer.setItems(customerList);
         appointmentConsultant.setItems(consultantList);
         
         // Set appointment to today by default for new appointments
-        appointmentDate.setValue(LocalDate.now());
+//        appointmentDate.setValue(LocalDate.now());
   
         // Factory to create Cell of DatePicker
         Callback<DatePicker, DateCell> dayCellFactory= this.getDayCellFactory();
@@ -164,11 +157,23 @@ public class AppointmentAddEditController implements Initializable {
     }    
     
     // Set selected appointment if modifying appointment
-    public void setAppointment(Appointment appointment, String screenType) {
+    public void setAppointment(Appointment appointment, String screenType) throws ParseException{
         
         appointmentScreenType.setText(screenType);
         appointmentId.setText(Integer.toString(appointment.getAppointmentId()));
-        
+        appointmentConsultant.setValue(appointment.getUserName());
+        appointmentCustomer.setValue(appointment.getCustomerName());
+        appointmentTitle.setText(appointment.getTitle());
+        appointmentDescription.setText(appointment.getDescription());
+        appointmentLocation.setText(appointment.getLocation());
+        appointmentContact.setText(appointment.getContact());
+        appointmentType.setText(appointment.getType());
+        appointmentUrl.setText(appointment.getUrl());
+        appointmentDate.setValue(LocalDateTime.ofInstant(appointment.getStart().toInstant(), appointment.getStart().getTimeZone().toZoneId()).toLocalDate());
+        startHour.setValue(TimeFiles.ConvertToLocalTimeHours(appointment.getStart()));
+        startMin.setValue(TimeFiles.ConvertToLocalTimeMinutes(appointment.getStart()));
+        endHour.setValue(TimeFiles.ConvertToLocalTimeHours(appointment.getEnd()));
+        endMin.setValue(TimeFiles.ConvertToLocalTimeMinutes(appointment.getEnd()));        
     }
     
 }
