@@ -98,7 +98,7 @@ public class CustomerAddEditController implements Initializable {
         String errorMessage = "";
         boolean isError = false;
         String numberPattern = ".*\\d+.*";
-        String letterPattern = ".*\\w+.*";
+        String letterPattern = ".*[a-zA-Z]+.*";
         Pattern regexNumberPattern = Pattern.compile(numberPattern);
         Pattern regexLetterPattern = Pattern.compile(letterPattern);
         Matcher matcher;
