@@ -13,6 +13,9 @@ import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.loggedInUser;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CustomerList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CountryList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CityList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AddressList;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Locale;
@@ -49,7 +52,7 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
 
     @FXML
@@ -67,15 +70,16 @@ public class LoginController implements Initializable {
                 errorAlert.setContentText("Incorrect password");
                 errorAlert.showAndWait();
             }else {
+                // Display loading message
                 
                 // Assign logged in User to the global variable loggedInUser
                 // This will provide context to who is logged in during the session
                 loggedInUser = retrievedUser;
                 UserList = DAO.UserDaoImpl.getAllUsers();
-                
                 // Since country, city, and address cascade (in that order) into Customer, we must load those first
-                
-                
+                CountryList = DAO.CountryDaoImpl.getAllCountries();
+                CityList = DAO.CityDaoImpl.getAllCities();
+                AddressList = DAO.AddressDaoImpl.getAllAddresses();
                 CustomerList = DAO.CustomerDaoImpl.getAllCustomers();
                 // Since user and customer list are used in appointment list, we must get those first
                 AppointmentList = DAO.AppointmentDaoImpl.getAllAppointments();

@@ -7,12 +7,15 @@ package View_Controller;
 
 import Model.Appointment;
 import static View_Controller.MainScreenController.updated;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.loggedInUser;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.errorAlert;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.confirmAlert;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -24,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -62,23 +66,14 @@ public class AppointmentScreenController implements Initializable {
     private Button editAppointmentButton;
     @FXML
     private Button addAppointmentButton;
-    
-    static ObservableList<Appointment> appointmentList;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        try {
-            appointmentList = DAO.AppointmentDaoImpl.getAllAppointments();
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         
-        //Populate Main Screen table with upcoming user appointments
-        // DOUBLE CHECK THAT THIS WILL CATCH UPDATES
+        //Populate Main Screen table with all appointments
         appointmentStart.setCellValueFactory(new PropertyValueFactory<>("startString"));
         appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("endString"));
         appointmentConsultant.setCellValueFactory(new PropertyValueFactory<>("userName"));
@@ -89,7 +84,7 @@ public class AppointmentScreenController implements Initializable {
         appointmentContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         appointmentType.setCellValueFactory(new PropertyValueFactory<>("type"));
         appointmentUrl.setCellValueFactory(new PropertyValueFactory<>("url"));
-        AppointmentTable.setItems(appointmentList);
+        AppointmentTable.setItems(AppointmentList);
     }    
 
     @FXML
@@ -140,7 +135,7 @@ public class AppointmentScreenController implements Initializable {
     private void filterForWeek(ActionEvent event) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextWeek = now.plusDays(7);
-        FilteredList<Appointment> filteredWeek = new FilteredList<>(appointmentList);
+        FilteredList<Appointment> filteredWeek = new FilteredList<>(AppointmentList);
         filteredWeek.setPredicate(row -> {
             LocalDateTime rowDate = LocalDateTime.ofInstant(row.getStart().toInstant(), row.getStart().getTimeZone().toZoneId());
             return rowDate.isAfter(now) && rowDate.isBefore(nextWeek);
@@ -152,7 +147,7 @@ public class AppointmentScreenController implements Initializable {
     private void filterForMonth(ActionEvent event) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextMonth = now.plusDays(30);
-        FilteredList<Appointment> filteredMonth = new FilteredList<>(appointmentList);
+        FilteredList<Appointment> filteredMonth = new FilteredList<>(AppointmentList);
         filteredMonth.setPredicate(row -> {
             LocalDateTime rowDate = LocalDateTime.ofInstant(row.getStart().toInstant(), row.getStart().getTimeZone().toZoneId());
             return rowDate.isAfter(now) && rowDate.isBefore(nextMonth);
@@ -162,7 +157,42 @@ public class AppointmentScreenController implements Initializable {
 
     @FXML
     private void filterForAll(ActionEvent event) {
-        AppointmentTable.setItems(appointmentList);  
+        AppointmentTable.setItems(AppointmentList);  
+    }
+
+    @FXML
+    private void deleteAppointment(ActionEvent event) {
+        
+        try {
+            Appointment selectedAppointment=AppointmentTable.getSelectionModel().getSelectedItem();
+            
+            // If no selection, throw an exception
+            if(selectedAppointment == null) {
+                throw new Exception("Appointment not selected");
+            }
+
+            System.out.println("Delete Appointment");
+            // Show confirmation before deleting
+            confirmAlert.setContentText("Are you sure you want to delete this appointment?");
+            Optional<ButtonType> result = confirmAlert.showAndWait();
+            // If deletion confirmed
+            if (result.get() == ButtonType.OK) {
+                // Use CRUD operation to delete from appointment table
+                DAO.AppointmentDaoImpl.deleteAppointment(selectedAppointment.getAppointmentId());
+                // Get remaining appointments directly from table
+                AppointmentList = DAO.AppointmentDaoImpl.getAllAppointments();
+                // Repopulate ObservableList of appointmnents
+                AppointmentTable.setItems(AppointmentList);
+            }
+            
+            
+            
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            errorAlert.setContentText("Please select an appointment to delete");
+            errorAlert.show();
+        } 
+        
     }
     
 }

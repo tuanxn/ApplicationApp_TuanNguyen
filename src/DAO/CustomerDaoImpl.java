@@ -69,6 +69,14 @@ public class CustomerDaoImpl {
                 Calendar createDateCalendar=stringToCalendar(createDate);
                 Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
                 Customer customerResult= new Customer(customerId, customerName, addressId, act, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
+                customerResult.setCustomerPhone();
+                customerResult.setCustomerAddress();
+                customerResult.setCustomerAddress2();
+                customerResult.setCityCode();
+                customerResult.setCustomerCity();
+                customerResult.setCountryCode();
+                customerResult.setCustomerCountry();
+                customerResult.setCustomerPostal();
                 allCustomers.add(customerResult);
                 
             }

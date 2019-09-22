@@ -6,6 +6,9 @@
 package Model;
 
 import java.util.Calendar;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AddressList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CityList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CountryList;
 
 /**
  *
@@ -109,11 +112,11 @@ public class Customer {
     }
     
     public void setCustomerAddress() throws Exception {
-        Address ad=DAO.AddressDaoImpl.getAddress(addressId);
-        if(ad != null) {
-            this.customerAddress = ad.getAddress();
-        }
-        
+        for(Address address: AddressList) {
+            if(address.getAddressId()==addressId) {
+                this.customerAddress = address.getAddress();
+            }
+        }                
     }
     
     public String getCustomerAddress2() {
@@ -121,11 +124,11 @@ public class Customer {
     }    
     
     public void setCustomerAddress2() throws Exception {
-        Address ad=DAO.AddressDaoImpl.getAddress(addressId);
-        if(ad != null) {
-            this.customerAddress2 = ad.getAddress2();
-        }
-        
+        for(Address address: AddressList) {
+            if(address.getAddressId()==addressId) {
+                this.customerAddress2 = address.getAddress2();
+            }
+        }        
     }
     
     public String getCustomerPhone() {
@@ -133,11 +136,11 @@ public class Customer {
     }    
     
     public void setCustomerPhone() throws Exception {
-        Address ad=DAO.AddressDaoImpl.getAddress(addressId);
-        if(ad != null) {
-            this.customerPhone = ad.getPhone();
-        }
-        
+        for(Address address: AddressList) {
+            if(address.getAddressId()==addressId) {
+                this.customerPhone = address.getPhone();
+            }
+        }        
     }    
     
     public String getCustomerCity() {
@@ -145,11 +148,11 @@ public class Customer {
     }    
     
     public void setCustomerCity() throws Exception {
-        City city=DAO.CityDaoImpl.getCity(cityCode);
-        if(city != null) {
-            this.customerCity = city.getCity();
-        }
-        
+        for(City city: CityList) {
+            if(city.getCityId()==cityCode) {
+                this.customerCity = city.getCity();
+            }
+        }        
     }    
 
     public String getCustomerCountry() {
@@ -157,11 +160,11 @@ public class Customer {
     }    
     
     public void setCustomerCountry() throws Exception {
-        Country country=DAO.CountryDaoImpl.getCountry(countryCode);
-        if(country != null) {
-            this.customerCountry = country.getCountry();
-        }
-        
+        for(Country country: CountryList) {
+            if(country.getCountryId()==countryCode) {
+                this.customerCountry = country.getCountry();
+            }
+        }        
     } 
     
     public String getCustomerPostal() {
@@ -169,11 +172,11 @@ public class Customer {
     }    
     
     public void setCustomerPostal() throws Exception {
-        Address ad=DAO.AddressDaoImpl.getAddress(addressId);
-        if(ad != null) {
-            this.postal = ad.getPostalCode();
-        }
-        
+        for(Address address: AddressList) {
+            if(address.getAddressId()==addressId) {
+                this.postal = address.getPostalCode();
+            }
+        }                
     }     
     
     public int getCityCode() {
@@ -181,11 +184,11 @@ public class Customer {
     }    
     
     public void setCityCode() throws Exception {
-        Address ad=DAO.AddressDaoImpl.getAddress(addressId);
-        if(ad != null) {
-            this.cityCode = ad.getCityId();
-        }
-        
+        for(Address address: AddressList) {
+            if(address.getAddressId()==addressId) {
+                this.cityCode = address.getCityId();
+            }
+        }        
     }    
     
     public int getCountryCode() {
@@ -193,11 +196,11 @@ public class Customer {
     }    
     
     public void setCountryCode() throws Exception {
-        City city=DAO.CityDaoImpl.getCity(cityCode);
-        if(city != null) {
-            this.countryCode = city.getCountryId();
-        }
-        
+        for(City city: CityList) {
+            if(city.getCityId()==cityCode) {
+                this.countryCode = city.getCountryId();
+            }
+        }        
     }          
     
 }

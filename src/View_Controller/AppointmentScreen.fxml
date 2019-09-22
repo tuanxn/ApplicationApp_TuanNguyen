@@ -7,26 +7,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="595.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentScreenController">
+<AnchorPane id="AnchorPane" prefHeight="634.0" prefWidth="1108.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentScreenController">
    <children>
       <AnchorPane id="AnchorPane" layoutY="6.0" prefHeight="588.0" prefWidth="1030.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="6.0">
          <children>
-            <TableView fx:id="AppointmentTable" layoutX="28.0" layoutY="104.0" prefHeight="450.0" prefWidth="974.0">
+            <TableView fx:id="AppointmentTable" layoutX="28.0" layoutY="104.0" prefHeight="513.0" prefWidth="1074.0">
                <columns>
-                  <TableColumn fx:id="appointmentStart" prefWidth="95.0" text="Start" />
-                  <TableColumn fx:id="appointmentEnd" prefWidth="95.0" text="End" />
-                  <TableColumn fx:id="appointmentConsultant" prefWidth="103.0" text="Consultant" />
-                  <TableColumn fx:id="appointmentCustomer" prefWidth="104.0" text="Customer" />
+                  <TableColumn fx:id="appointmentStart" prefWidth="119.0" text="Start" />
+                  <TableColumn fx:id="appointmentEnd" prefWidth="119.0" text="End" />
+                  <TableColumn fx:id="appointmentConsultant" prefWidth="105.0" text="Consultant" />
+                  <TableColumn fx:id="appointmentCustomer" prefWidth="105.0" text="Customer" />
                   <TableColumn fx:id="appointmentTitle" prefWidth="105.0" text="Title" />
-                  <TableColumn fx:id="appointmentDescription" prefWidth="111.0" text="Description" />
-                  <TableColumn fx:id="appointmentLocation" prefWidth="112.0" text="Location" />
-                  <TableColumn fx:id="appointmentContact" prefWidth="89.0" text="Contact" />
-                  <TableColumn fx:id="appointmentType" prefWidth="83.0" text="Type" />
-                  <TableColumn fx:id="appointmentUrl" prefWidth="76.0" text="URL" />
+                  <TableColumn fx:id="appointmentDescription" prefWidth="105.0" text="Description" />
+                  <TableColumn fx:id="appointmentLocation" prefWidth="105.0" text="Location" />
+                  <TableColumn fx:id="appointmentContact" prefWidth="105.0" text="Contact" />
+                  <TableColumn fx:id="appointmentType" prefWidth="105.0" text="Type" />
+                  <TableColumn fx:id="appointmentUrl" prefWidth="105.0" text="URL" />
                </columns>
             </TableView>
-            <Button fx:id="editAppointmentButton" layoutX="887.0" layoutY="63.0" mnemonicParsing="false" onAction="#editAppointment" prefHeight="25.0" prefWidth="115.0" text="Edit Appointment" />
-            <Button fx:id="addAppointmentButton" layoutX="751.0" layoutY="63.0" mnemonicParsing="false" onAction="#addAppointment" text="Add Appointments" />
+            <Button fx:id="editAppointmentButton" layoutX="821.0" layoutY="63.0" mnemonicParsing="false" onAction="#editAppointment" prefHeight="25.0" prefWidth="130.0" text="Edit Appointment" />
+            <Button fx:id="addAppointmentButton" layoutX="670.0" layoutY="63.0" mnemonicParsing="false" onAction="#addAppointment" prefHeight="25.0" prefWidth="130.0" text="Add Appointments" />
             <Button layoutX="29.0" layoutY="22.0" mnemonicParsing="false" onAction="#backToMainScreen" prefHeight="25.0" prefWidth="98.0" text="Main Screen" />
             <Label layoutX="28.0" layoutY="67.0" text="All Appointments">
                <font>
@@ -36,6 +36,7 @@
             <Button layoutX="153.0" layoutY="62.0" mnemonicParsing="false" onAction="#filterForWeek" prefHeight="25.0" prefWidth="52.0" text="Week" />
             <Button layoutX="227.0" layoutY="62.0" mnemonicParsing="false" onAction="#filterForMonth" prefHeight="25.0" prefWidth="52.0" text="Month" />
             <Button layoutX="299.0" layoutY="62.0" mnemonicParsing="false" onAction="#filterForAll" prefHeight="25.0" prefWidth="52.0" text="All" />
+            <Button layoutX="972.0" layoutY="63.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="130.0" text="Delete Appointment" />
          </children>
       </AnchorPane>
    </children>

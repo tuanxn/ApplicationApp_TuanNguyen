@@ -132,6 +132,7 @@ public class AppointmentDaoImpl {
     public static void addAppointment(int customerId, int userId, String title, String description, String location, String contact, String type, String url, Calendar start, Calendar end, String createdBy, String lastUpdateBy) throws SQLException, Exception{
         DBConnection.makeConnection();
             
+        
             // Convert start time to GMT
             String gmtStart = Utilities.TimeFiles.ConvertToGMT(start);
             
@@ -162,7 +163,7 @@ public class AppointmentDaoImpl {
         DBConnection.closeConnection();
     }    
 
-    public static void updateAppointment(int appointmentId, int customerId, int userId, String title, String description, String location, String contact, String type, String url, Calendar start, Calendar end, String createdBy, String lastUpdateBy) throws SQLException, Exception{
+    public static void updateAppointment(int appointmentId, int customerId, int userId, String title, String description, String location, String contact, String type, String url, Calendar start, Calendar end, String lastUpdateBy) throws SQLException, Exception{
         DBConnection.makeConnection();
         
             // Convert start time to GMT
@@ -184,7 +185,6 @@ public class AppointmentDaoImpl {
                                 "url = '" + url + "', " +
                                 "start = '" + gmtStart + "', " +
                                 "end = '" + gmtEnd + "', " +
-                                "createdBy = '" + createdBy + "', " +
                                 "lastUpdateBy = '" + lastUpdateBy + "' " +
                                 "WHERE appointmentId = '" + appointmentId + "'";          
             Query.makeQuery(sqlStatement);

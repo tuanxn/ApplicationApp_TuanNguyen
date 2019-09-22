@@ -28,6 +28,7 @@ public class AppointmentApp_TuanNguyen extends Application {
     // Global variable to provide context for logged in user
     public static User loggedInUser;
     public static Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+    public static Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
     public static ObservableList<Customer> CustomerList;
     public static ObservableList<Appointment> AppointmentList;
     public static ObservableList<User> UserList;

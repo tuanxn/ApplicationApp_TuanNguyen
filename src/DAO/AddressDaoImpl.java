@@ -22,19 +22,16 @@ import java.util.Locale;
  */
 public class AddressDaoImpl {
     
-    public static Address getAddress(int addressId) throws SQLException, Exception{
+    public static Address getAddress(String address, String address2, int cityId, String postalCode, String phone) throws SQLException, Exception{
         DBConnection.makeConnection();
-        String sqlStatement="select * FROM address WHERE addressId  = '" + addressId + "'";
+        String sqlStatement="select * FROM address WHERE address = '" + address + "' AND address2 = '" + address2 + "' AND cityId = '" + cityId + "'" +
+                            "AND postalCode = '"+ postalCode +"' AND phone = '" + phone +"'";
         Query.makeQuery(sqlStatement);
            Address addressResult;
            ResultSet result=Query.getResult();
            while(result.next()){
   
-                String address=result.getString("address");
-                String address2=result.getString("address2");
-                int cityId=result.getInt("cityId");
-                String postalCode=result.getString("postalCode");
-                String phone=result.getString("phone");        
+                int addressId=result.getInt("addressId"); 
                 String createDate=result.getString("createDate");
                 String createdBy=result.getString("createdBy");
                 String lastUpdate=result.getString("lastUpdate");
@@ -52,11 +49,11 @@ public class AddressDaoImpl {
     public static ObservableList<Address> getAllAddresses() throws SQLException, Exception{
         ObservableList<Address> allAddresses=FXCollections.observableArrayList();    
         DBConnection.makeConnection();
-            String sqlStatement="select * from city";          
+            String sqlStatement="select * from address";          
             Query.makeQuery(sqlStatement);
             ResultSet result=Query.getResult();
              while(result.next()){
-                int addressId=result.getInt("cityId");
+                int addressId=result.getInt("addressId");
                 String address=result.getString("address");
                 String address2=result.getString("address2");
                 int cityId=result.getInt("cityId");
@@ -97,7 +94,7 @@ public class AddressDaoImpl {
         DBConnection.closeConnection();
     }    
 
-    public static void updateAddress(int addressId, String address, String address2, int cityId, String postalCode, String phone, String createdBy, String lastUpdateBy) throws SQLException, Exception{
+    public static void updateAddress(int addressId, String address, String address2, int cityId, String postalCode, String phone, String lastUpdateBy) throws SQLException, Exception{
         DBConnection.makeConnection();
             
             // Create UPDATE statement to update address
@@ -108,7 +105,6 @@ public class AddressDaoImpl {
                                 "cityId = '" + cityId + "', " +
                                 "postalCode = '" + postalCode + "', " +
                                 "phone = '" + phone + "', " +
-                                "createdBy = '" + createdBy + "', " +
                                 "lastUpdateBy = '" + lastUpdateBy + "' " +
                                 "WHERE addressId = '" + addressId + "'";          
             Query.makeQuery(sqlStatement);

@@ -22,15 +22,15 @@ import java.util.Locale;
  */
 public class CountryDaoImpl {
     
-    public static Country getCountry(int countryId) throws SQLException, Exception{
+    public static Country getCountry(String country) throws SQLException, Exception{
         DBConnection.makeConnection();
-        String sqlStatement="select * FROM country WHERE countryId  = '" + countryId + "'";
+        String sqlStatement="select * FROM country WHERE country  = '" + country + "'";
         Query.makeQuery(sqlStatement);
            Country countryResult;
            ResultSet result=Query.getResult();
            while(result.next()){
   
-                String country=result.getString("country");
+                int countryId=result.getInt("countryId");
                 String createDate=result.getString("createDate");
                 String createdBy=result.getString("createdBy");
                 String lastUpdate=result.getString("lastUpdate");

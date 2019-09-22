@@ -9,14 +9,18 @@ import Model.Appointment;
 import Model.Customer;
 import Model.User;
 import Utilities.TimeFiles;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.loggedInUser;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CustomerList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.errorAlert;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,7 +77,7 @@ public class AppointmentAddEditController implements Initializable {
     @FXML
     private ComboBox<String> endMin;
     
-    Appointment appointment;    
+    Appointment modifiedAppointment;    
 
     /**
      * Initializes the controller class.
@@ -101,9 +105,6 @@ public class AppointmentAddEditController implements Initializable {
         endMin.setItems(minList);
         appointmentCustomer.setItems(customerList);
         appointmentConsultant.setItems(consultantList);
-        
-        // Set appointment to today by default for new appointments
-//        appointmentDate.setValue(LocalDate.now());
   
         // Factory to create Cell of DatePicker
         Callback<DatePicker, DateCell> dayCellFactory= this.getDayCellFactory();
@@ -112,22 +113,196 @@ public class AppointmentAddEditController implements Initializable {
     }    
 
     @FXML
-    private void cancelAppointment(ActionEvent event) throws IOException{
-        Parent parent = FXMLLoader.load(getClass().getResource("AppointmentScreen.fxml"));
-        Scene part_screen_scene = new Scene(parent);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.hide();
-        app_stage.setScene(part_screen_scene);
-        app_stage.show();          
-    }
-
-    @FXML
     private void saveAppointment(ActionEvent event) {
         
-        // Method to get DatePicker Date
-        // Date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        // startTime.getSelectedModel().getSelectedItem();
-        // appointmentDuration.getSelectedModel().getSelectedItem();
+        String errorMessage = "";
+        boolean isError = false;
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+        ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
+        Calendar start = null;
+        Calendar end = null;
+        
+        try {     
+            String saveUser = appointmentConsultant.getValue();
+            if(saveUser == null) {
+                errorMessage += "Consultant not set \n";
+                isError = true;
+            }else {
+                // If consultant provided, create list of current appointments for that consultant so we can check overlaps
+                for(Appointment appointment: AppointmentList) {
+                    if(saveUser == appointment.getUserName()) {
+                        userAppointments.add(appointment);
+                    }
+                }
+            }
+            String saveCustomer = appointmentCustomer.getValue();
+            if(saveCustomer == null) {
+                errorMessage += "Customer not set \n";
+                isError = true;
+            }else {
+                // If customer provided, create list of current appointments for that customer so we can check overlaps
+                for(Appointment appointment: AppointmentList) {
+                    if(saveCustomer == appointment.getCustomerName()) {
+                        customerAppointments.add(appointment);
+                    }
+                }
+            }            
+            String saveTitle = appointmentTitle.getText();
+            if(saveTitle.isEmpty()) {
+                errorMessage += "Title not set \n";
+                isError = true;
+            }
+            String saveDescription = appointmentDescription.getText();
+            if(saveDescription.isEmpty()) {
+                errorMessage += "Description not set \n";
+                isError = true;
+            }
+            String saveLocation = appointmentLocation.getText();
+            if(saveLocation.isEmpty()) {
+                errorMessage += "Location not set \n";
+                isError = true;
+            }
+            String saveContact = appointmentContact.getText();
+            if(saveContact.isEmpty()) {
+                errorMessage += "Contact not set \n";
+                isError = true;
+            }
+            String saveType = appointmentType.getText();
+            if(saveType.isEmpty()) {
+                errorMessage += "Type not set \n";
+                isError = true;
+            }
+            String saveUrl = appointmentUrl.getText();
+            if(saveUrl.isEmpty()) {
+                errorMessage += "URL not set \n";
+                isError = true;
+            }
+            String saveDate = "";
+            try {
+                saveDate = appointmentDate.getValue().toString();
+            }catch (Exception e) {
+                    errorMessage += "Date not set \n";
+                    isError = true;
+            }
+            String saveStartHour = startHour.getValue();
+            if(saveStartHour == null) {
+                errorMessage += "Starting hour not set \n";
+                isError = true;
+            // If starting time is set, but not between working hours of 9am-5pm
+            }else if(Integer.parseInt(saveStartHour)<9 || Integer.parseInt(saveStartHour) > 16) {
+                errorMessage += "Start time must be between 9am-5pm \n";
+                isError = true;
+            }
+            String saveStartMin = startMin.getValue();
+            if(saveStartMin == null) {
+                errorMessage += "Starting minutes not set \n";
+                isError = true;
+            }
+            String saveEndHour = endHour.getValue();
+            if(saveEndHour == null) {
+                errorMessage += "Ending hour not set \n";
+                isError = true;
+            // If ending time is set, but not between working hours of 9am-5pm
+            }else if(Integer.parseInt(saveEndHour)<9 || Integer.parseInt(saveStartHour) > 17) {
+                errorMessage += "End time must be between 9am-5pm \n";
+                isError = true;
+            }
+            String saveEndMin = endMin.getValue();
+            if(saveEndMin == null) {
+                errorMessage += "Ending minutes not set";
+                isError = true;
+            }
+            
+            // If we are modifying an appointment, remove the existing appointment from the list of appointments that we need to check overlapping for
+            if(appointmentScreenType.getText().equals("Modify Appointment")) {
+                userAppointments.remove(modifiedAppointment);
+                customerAppointments.remove(modifiedAppointment);
+            }            
+            
+            // If no other errors, check if appointment overlaps with an existing appointment for this user or customer
+            /* 
+                Exception Handling converts beginning and ending times into DateTime values and tests if they fall into 1 of the 4 categories:
+                    1. Beginning time falls between starting and ending time of an appointment (overlaps partial over end of appointment)
+                    2. Ending time falls between starting and ending time of an appointment (overlaps partial over beginning of appointment)
+                    3. Beginning time begins BEFORE OR ON the appointment starting time 
+                        and ends ON OR AFTER the appointment ending time (overlaps entire thing and beyond)
+            */
+            
+            if(!isError) {
+                start = TimeFiles.localStringToCalendar(saveDate.replace("/", "-") + " " + saveStartHour + ":" + saveStartMin + ":00");
+                end = TimeFiles.localStringToCalendar(saveDate.replace("/", "-") + " " + saveEndHour + ":" + saveEndMin + ":00");
+                if(end.before(start) || end.equals(start)) {
+                    errorMessage +="end time must be after start time";
+                    isError = true;
+                }
+            }
+            
+            if(!isError) {
+
+                // Loop through current user appointments and check for overlaps
+                for(Appointment appointment: userAppointments) {
+                    if((start.getTime().after(appointment.getStart().getTime()) && start.getTime().before(appointment.getEnd().getTime())) || 
+                            (end.getTime().after(appointment.getStart().getTime()) && end.getTime().before(appointment.getEnd().getTime())) ||
+                            ((start.getTime().before(appointment.getStart().getTime()) || (start.getTime().equals(appointment.getStart().getTime()))) && 
+                            ((end.getTime().equals(appointment.getEnd().getTime())) || end.getTime().after(appointment.getEnd().getTime())))) { 
+                        errorMessage +="Appointment overlaps with existing user appointment \n";
+                        isError = true;
+                    }
+                }
+                // Loop through current customer appointments and check for overlaps
+                for(Appointment appointment: customerAppointments) {
+                    if((start.getTime().after(appointment.getStart().getTime()) && start.getTime().before(appointment.getEnd().getTime())) || 
+                            (end.getTime().after(appointment.getStart().getTime()) && end.getTime().before(appointment.getEnd().getTime())) ||
+                            (start.getTime().before(appointment.getStart().getTime()) && end.getTime().after(appointment.getEnd().getTime())) || 
+                            (start.getTime().equals(appointment.getStart().getTime()) && end.getTime().equals(appointment.getEnd().getTime()))){
+                        errorMessage +="Appointment overlaps with existing customer appointment";
+                        isError = true;
+                    }
+                }
+            }
+            
+            // If error flag set to true, then throw error that was created
+            if(isError) {
+                throw new Exception(errorMessage);
+            }else {
+                // Otherwise, add new appointment to Appointment Table
+                
+                // Replace customer and user names with IDs
+                int saveCustomerId = 0;
+                int saveUserId = 0;
+                for(Customer customer: CustomerList) {
+                    if(customer.getCustomerName().toUpperCase().equals(saveCustomer.toUpperCase())) {
+                        saveCustomerId = customer.getCustomerId();
+                    }
+                }
+                for(User user: UserList) {
+                    if(user.getUserName().toUpperCase().equals(saveUser.toUpperCase())) {
+                        saveUserId = user.getUserId();
+                    }
+                }
+                
+                if(appointmentScreenType.getText().equals("Modify Appointment")) {
+                    DAO.AppointmentDaoImpl.updateAppointment(Integer.parseInt(appointmentId.getText()), saveCustomerId, saveUserId, saveTitle, saveDescription, saveLocation, saveContact, saveType, saveUrl, start, end, loggedInUser.getUserName());
+                }else {
+                    // Add to Appointment Table
+                    DAO.AppointmentDaoImpl.addAppointment(saveCustomerId, saveUserId, saveTitle, saveDescription, saveLocation, saveContact, saveType, saveUrl, start, end, loggedInUser.getUserName(), loggedInUser.getUserName());
+                }
+                // Repopulate AppointmentList with new appointment
+                AppointmentList = DAO.AppointmentDaoImpl.getAllAppointments();
+                
+                // Return to Appointment Screen
+                Parent parent = FXMLLoader.load(getClass().getResource("AppointmentScreen.fxml"));
+                Scene part_screen_scene = new Scene(parent);
+                Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                app_stage.hide();
+                app_stage.setScene(part_screen_scene);
+                app_stage.show();   
+            }
+            
+        }catch (Exception e) {
+            errorAlert.setContentText(e.getMessage());
+            errorAlert.showAndWait();
+        }
         
     }
     
@@ -159,6 +334,8 @@ public class AppointmentAddEditController implements Initializable {
     // Set selected appointment if modifying appointment
     public void setAppointment(Appointment appointment, String screenType) throws ParseException{
         
+        modifiedAppointment = appointment;
+        
         appointmentScreenType.setText(screenType);
         appointmentId.setText(Integer.toString(appointment.getAppointmentId()));
         appointmentConsultant.setValue(appointment.getUserName());
@@ -174,6 +351,16 @@ public class AppointmentAddEditController implements Initializable {
         startMin.setValue(TimeFiles.ConvertToLocalTimeMinutes(appointment.getStart()));
         endHour.setValue(TimeFiles.ConvertToLocalTimeHours(appointment.getEnd()));
         endMin.setValue(TimeFiles.ConvertToLocalTimeMinutes(appointment.getEnd()));        
+    }
+
+    @FXML
+    private void cancelAddEditAppointment(ActionEvent event) throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("AppointmentScreen.fxml"));
+        Scene part_screen_scene = new Scene(parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.hide();
+        app_stage.setScene(part_screen_scene);
+        app_stage.show(); 
     }
     
 }

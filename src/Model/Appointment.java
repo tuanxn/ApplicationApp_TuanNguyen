@@ -210,14 +210,7 @@ public class Appointment {
     
     public String getUserName() {
         return userName;
-    }
-    
-//    public void setUserName(int userId) throws Exception{
-//        User user=DAO.UserDaoImpl.getUser(userId);
-//        if(user != null) {
-//            this.userName = user.getUserName();
-//        }
-//    }     
+    }    
     
     public void setUserName(int userId) throws Exception{
         for(User user: UserList) {
