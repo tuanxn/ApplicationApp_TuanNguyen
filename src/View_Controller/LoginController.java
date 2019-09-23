@@ -16,6 +16,7 @@ import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CountryList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CityList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AddressList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.rb;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -60,6 +61,8 @@ public class LoginController implements Initializable {
     private Label userLabel;
     @FXML
     private Label passwordLabel;
+    private String usernameAlert;
+    private String passwordAlert;
 
     /**
      * Initializes the controller class.
@@ -71,6 +74,8 @@ public class LoginController implements Initializable {
        passwordLabel.setText(rb.getString("password"));
        login.setText(rb.getString("button"));
        exit.setText(rb.getString("exit"));
+       usernameAlert = rb.getString("usernameAlert");
+       passwordAlert = rb.getString("passwordAlert");
     }    
 
     @FXML
@@ -92,8 +97,7 @@ public class LoginController implements Initializable {
                 outputFile.println(userNameText + " failed to log in on " + Calendar.getInstance().getTime());
                 outputFile.close();
                 
-                errorAlert.setContentText("Username not found");
-                errorAlert.showAndWait();
+                throw new Exception(usernameAlert);
                 
             }else if(!passwordText.equals(retrievedUser.getPassword())) {
                 
@@ -106,8 +110,7 @@ public class LoginController implements Initializable {
                 outputFile.println(userNameText + " failed to log in on " + Calendar.getInstance().getTime());
                 outputFile.close();
                 
-                errorAlert.setContentText("Incorrect password");
-                errorAlert.showAndWait();
+                throw new Exception(passwordAlert);
                 
             }else {
                 

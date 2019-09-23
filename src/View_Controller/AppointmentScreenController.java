@@ -131,6 +131,13 @@ public class AppointmentScreenController implements Initializable {
         app_stage.show();          
     }
 
+    
+    /* 
+    The filters for Week and Month are done using Lambda Expressions
+    Because these functions would not be used elsewhere, it made more sense
+    to create a simple lambda function to save space
+    */
+    
     @FXML
     private void filterForWeek(ActionEvent event) {
         LocalDateTime now = LocalDateTime.now();

@@ -19,6 +19,8 @@ import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.errorAlert;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,6 +97,11 @@ public class CustomerAddEditController implements Initializable {
         
         String errorMessage = "";
         boolean isError = false;
+        String numberPattern = ".*\\d+.*";
+        String letterPattern = ".*\\w+.*";
+        Pattern regexNumberPattern = Pattern.compile(numberPattern);
+        Pattern regexLetterPattern = Pattern.compile(letterPattern);
+        Matcher matcher;
         
         try {
             // Grabs whether customer is active and converts to tinyint for DB
@@ -106,10 +113,11 @@ public class CustomerAddEditController implements Initializable {
                 isError = true;
             }
             String savePhone = customerPhone.getText();
+            matcher = regexLetterPattern.matcher(savePhone);
             if(savePhone.isEmpty()) {
                 errorMessage += "Phone not set \n";
                 isError = true;
-            }else if(savePhone.matches("[a-zA-Z]")) {
+            }else if(matcher.find()) {
                 errorMessage += "Phone cannot have alphabet characters \n";
                 isError = true;
             }        
@@ -120,18 +128,20 @@ public class CustomerAddEditController implements Initializable {
             }        
             String saveAddress2 = customerAddress2.getText();    
             String saveCity = customerCity.getText();
+            matcher = regexNumberPattern.matcher(saveCity);
             if(saveCity.isEmpty()) {
                 errorMessage += "City not set \n";
                 isError = true;
-            }else if(saveCity.matches("[0-9]")) {
+            }else if(matcher.find()) {
                 errorMessage += "City cannot have numerical characters \n";
                 isError = true;
             }                
             String saveCountry = customerCountry.getText();
+            matcher = regexNumberPattern.matcher(saveCountry);
             if(saveCountry.isEmpty()) {
                 errorMessage += "Country not set \n";
                 isError = true;
-            }else if(saveCountry.matches("[0-9]")) {
+            }else if(matcher.find()) {
                 errorMessage += "Country cannot have numerical characters \n";
                 isError = true;
             }   

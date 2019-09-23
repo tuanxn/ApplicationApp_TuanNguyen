@@ -37,7 +37,8 @@ public class AppointmentApp_TuanNguyen extends Application {
     public static ObservableList<User> UserList;
     public static ObservableList<Country> CountryList;
     public static ObservableList<City> CityList;
-    public static ObservableList<Address> AddressList;    
+    public static ObservableList<Address> AddressList;  
+    public static ResourceBundle rb;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -48,9 +49,8 @@ public class AppointmentApp_TuanNguyen extends Application {
 //        Locale.setDefault(new Locale("es", "ES"));
         
         
-        
-        
-        ResourceBundle rb = ResourceBundle.getBundle("language_files/rb");
+        rb = ResourceBundle.getBundle("language_files/rb");
+
         
         Parent main = null;
         try {
