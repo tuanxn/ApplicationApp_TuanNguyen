@@ -11,6 +11,9 @@ import Model.City;
 import Model.Country;
 import Model.Customer;
 import Model.User;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -38,12 +41,31 @@ public class AppointmentApp_TuanNguyen extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/Login.fxml"));
         
-        Scene scene = new Scene(root);
         
-        stage.setScene(scene);
-        stage.show();
+        
+        // UNCOMMENT THE LINE BELOW TO CHANGE LOGIN SCREEN TO SPANISH
+//        Locale.setDefault(new Locale("es", "ES"));
+        
+        
+        
+        
+        ResourceBundle rb = ResourceBundle.getBundle("language_files/rb");
+        
+        Parent main = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View_Controller/Login.fxml"));
+            loader.setResources(rb);
+            main = loader.load();
+        
+            Scene scene = new Scene(main);
+
+            stage.setScene(scene);
+            stage.show();
+            
+        }catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

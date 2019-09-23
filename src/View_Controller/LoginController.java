@@ -8,21 +8,24 @@ package View_Controller;
 import Model.Appointment;
 import Model.User;
 import Utilities.TimeFiles;
-import appointmentapp_tuannguyen.AppointmentApp_TuanNguyen;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.errorAlert;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.loggedInUser;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CustomerList;
-import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CountryList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CityList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AddressList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +34,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -50,13 +52,25 @@ public class LoginController implements Initializable {
     private TextField userName;
     @FXML
     private TextField password;
+    @FXML
+    private Button login;
+    @FXML
+    private Button exit;
+    @FXML
+    private Label userLabel;
+    @FXML
+    private Label passwordLabel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+       label.setText(rb.getString("label"));
+       userLabel.setText(rb.getString("user"));
+       passwordLabel.setText(rb.getString("password"));
+       login.setText(rb.getString("button"));
+       exit.setText(rb.getString("exit"));
     }    
 
     @FXML
@@ -68,13 +82,34 @@ public class LoginController implements Initializable {
         try {
             User retrievedUser = DAO.UserDaoImpl.getUser(userNameText);
             if(retrievedUser == null) {
+                
+                // Track unsuccessful user login in the log file
+                String filename = "User_Login_Log.txt";
+                File file = new File(filename);
+
+                FileWriter fwriter = new FileWriter(filename, true);
+                PrintWriter outputFile = new PrintWriter(fwriter);
+                outputFile.println(userNameText + " failed to log in on " + Calendar.getInstance().getTime());
+                outputFile.close();
+                
                 errorAlert.setContentText("Username not found");
                 errorAlert.showAndWait();
+                
             }else if(!passwordText.equals(retrievedUser.getPassword())) {
+                
+                // Track unsuccessful user login in the log file
+                String filename = "User_Login_Log.txt";
+                File file = new File(filename);
+
+                FileWriter fwriter = new FileWriter(filename, true);
+                PrintWriter outputFile = new PrintWriter(fwriter);
+                outputFile.println(userNameText + " failed to log in on " + Calendar.getInstance().getTime());
+                outputFile.close();
+                
                 errorAlert.setContentText("Incorrect password");
                 errorAlert.showAndWait();
+                
             }else {
-                // Display loading message
                 
                 // Assign logged in User to the global variable loggedInUser
                 // This will provide context to who is logged in during the session
@@ -87,6 +122,17 @@ public class LoginController implements Initializable {
                 CustomerList = DAO.CustomerDaoImpl.getAllCustomers();
                 // Since user and customer list are used in appointment list, we must get those first
                 AppointmentList = DAO.AppointmentDaoImpl.getAllAppointments();
+                
+                // Track successful user login in the log file
+                String filename = "User_Login_Log.txt";
+                File file = new File(filename);
+
+                FileWriter fwriter = new FileWriter(filename, true);
+                PrintWriter outputFile = new PrintWriter(fwriter);
+                outputFile.println(loggedInUser.getUserName() + " successfully logged in on " + Calendar.getInstance().getTime());
+                outputFile.close();
+
+                              
 
                 // Change to MainScreen
                 Parent parent = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));

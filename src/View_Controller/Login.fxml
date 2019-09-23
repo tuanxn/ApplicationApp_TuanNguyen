@@ -6,19 +6,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="209.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.LoginController">
     <children>
-        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <Label layoutX="14.0" layoutY="14.0" text="Appointment Booking Application">
+      <Label fx:id="label" layoutX="14.0" layoutY="14.0" text="Appointment Booking Application">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="userName" layoutX="121.0" layoutY="67.0" />
-      <TextField fx:id="password" layoutX="121.0" layoutY="116.0" />
-      <Label layoutX="39.0" layoutY="71.0" text="Username:" />
-      <Label layoutX="41.0" layoutY="120.0" text="Password:" />
-      <Button layoutX="224.0" layoutY="152.0" mnemonicParsing="false" onAction="#loginButton" text="Login" />
-      <Button layoutX="39.0" layoutY="152.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="25.0" prefWidth="46.0" text="Exit" />
+      <TextField fx:id="userName" layoutX="196.0" layoutY="67.0" />
+      <TextField fx:id="password" layoutX="196.0" layoutY="116.0" />
+      <Label fx:id="userLabel" layoutX="39.0" layoutY="71.0" text="Username:" />
+      <Label fx:id="passwordLabel" layoutX="41.0" layoutY="120.0" text="Password:" />
+      <Button fx:id="login" layoutX="232.0" layoutY="158.0" mnemonicParsing="false" onAction="#loginButton" prefHeight="25.0" prefWidth="113.0" text="Login" />
+      <Button fx:id="exit" layoutX="39.0" layoutY="158.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="25.0" prefWidth="113.0" text="Exit" />
     </children>
 </AnchorPane>
