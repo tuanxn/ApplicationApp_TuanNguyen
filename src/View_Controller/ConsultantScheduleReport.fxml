@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="361.0" prefWidth="502.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ConsultantScheduleReportController">
+<AnchorPane id="AnchorPane" prefHeight="361.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ConsultantScheduleReportController">
    <children>
       <Label layoutX="25.0" layoutY="62.0" text="Consultant Schedule">
          <font>
@@ -17,14 +17,16 @@
       </Label>
       <Button layoutX="25.0" layoutY="23.0" mnemonicParsing="false" onAction="#backToReportScreen" text="Report Screen" />
       <ComboBox fx:id="consultant" layoutX="25.0" layoutY="91.0" prefWidth="150.0" promptText="Select Consultant" />
-      <TableView fx:id="AppointmentTable" layoutX="25.0" layoutY="133.0" prefHeight="202.0" prefWidth="450.0">
+      <TableView fx:id="AppointmentTable" layoutX="25.0" layoutY="133.0" prefHeight="202.0" prefWidth="631.0">
          <columns>
-            <TableColumn fx:id="appointmentStart" prefWidth="95.0" text="Start" />
-            <TableColumn fx:id="appointmentEnd" prefWidth="92.0" text="End" />
-            <TableColumn fx:id="appointmentCustomer" prefWidth="100.0" text="Customer" />
-            <TableColumn fx:id="appointmentTitle" prefWidth="81.0" text="Title" />
-            <TableColumn fx:id="appointmentType" prefWidth="81.0" text="Type" />
+            <TableColumn fx:id="appointmentStart" prefWidth="105.0" text="Start" />
+            <TableColumn fx:id="appointmentEnd" prefWidth="105.0" text="End" />
+            <TableColumn fx:id="appointmentCustomer" prefWidth="105.0" text="Customer" />
+            <TableColumn fx:id="appointmentTitle" prefWidth="105.0" text="Title" />
+            <TableColumn fx:id="appointmentType" prefWidth="105.0" text="Type" />
+            <TableColumn fx:id="appointmentUser" prefWidth="105.0" text="User" />
          </columns>
       </TableView>
+      <Button layoutX="216.0" layoutY="91.0" mnemonicParsing="false" onAction="#filterForConsultant" prefHeight="25.0" prefWidth="60.0" text="Filter" />
    </children>
 </AnchorPane>

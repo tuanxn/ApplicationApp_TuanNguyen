@@ -33,15 +33,33 @@ public class ReportScreenController implements Initializable {
     }    
 
     @FXML
-    private void appointmentTypeByMonthReport(ActionEvent event) {
+    private void appointmentTypeByMonthReport(ActionEvent event) throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("AppointmentTypeByMonthReport.fxml"));
+        Scene part_screen_scene = new Scene(parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.hide();
+        app_stage.setScene(part_screen_scene);
+        app_stage.show();        
     }
 
     @FXML
-    private void consultantScheduleReport(ActionEvent event) {
+    private void consultantScheduleReport(ActionEvent event) throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("ConsultantScheduleReport.fxml"));
+        Scene part_screen_scene = new Scene(parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.hide();
+        app_stage.setScene(part_screen_scene);
+        app_stage.show();        
     }
 
     @FXML
-    private void totalCustomerReport(ActionEvent event) {
+    private void totalCustomerReport(ActionEvent event) throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("TotalCustomersReport.fxml"));
+        Scene part_screen_scene = new Scene(parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.hide();
+        app_stage.setScene(part_screen_scene);
+        app_stage.show();        
     }
 
     @FXML

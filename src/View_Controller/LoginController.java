@@ -5,6 +5,7 @@
  */
 package View_Controller;
 
+import Model.Appointment;
 import Model.User;
 import Utilities.TimeFiles;
 import appointmentapp_tuannguyen.AppointmentApp_TuanNguyen;
@@ -16,10 +17,13 @@ import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.UserList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CountryList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.CityList;
 import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AddressList;
+import static appointmentapp_tuannguyen.AppointmentApp_TuanNguyen.AppointmentList;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -83,13 +87,33 @@ public class LoginController implements Initializable {
                 CustomerList = DAO.CustomerDaoImpl.getAllCustomers();
                 // Since user and customer list are used in appointment list, we must get those first
                 AppointmentList = DAO.AppointmentDaoImpl.getAllAppointments();
-                
+
+                // Change to MainScreen
                 Parent parent = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
                 Scene part_screen_scene = new Scene(parent);
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 app_stage.hide();
                 app_stage.setScene(part_screen_scene);
                 app_stage.show();
+                
+                
+                // Alert message if there is an appointment in the next 15 minutes
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime next15 = now.plusMinutes(15);
+                // Create filtered list of appointments in next 15 minutes
+                FilteredList<Appointment> filteredWeek = new FilteredList<>(AppointmentList);
+                // Using lambda expression to create filtered list on the fly
+                // Lambda expression gives us the ability to define a function without declaring it
+                filteredWeek.setPredicate(row -> {
+                    LocalDateTime rowDate = LocalDateTime.ofInstant(row.getStart().toInstant(), row.getStart().getTimeZone().toZoneId());
+                    return rowDate.isAfter(now) && rowDate.isBefore(next15);
+                });
+                // Get size of list and if it is greater than 1, then there is an appointment in next 15 minutes
+                int appointmentIn15 = filteredWeek.size();
+                if(appointmentIn15 > 0) {
+                    errorAlert.setContentText("There is an appointment within the next 15 minutes!");
+                    errorAlert.showAndWait();
+                }                
             }
         } catch (Exception e) {
             errorAlert.setContentText(e.getMessage());

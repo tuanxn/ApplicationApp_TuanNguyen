@@ -225,7 +225,7 @@ public class CustomerAddEditController implements Initializable {
                     addressId = DAO.AddressDaoImpl.getAddress(saveAddress.toUpperCase(), saveAddress2.toUpperCase(), cityId, savePostal.toUpperCase(), savePhone.toUpperCase()).getAddressId(); 
                     
                     // Update the customer record
-                    DAO.CustomerDaoImpl.updateCustomer(Integer.parseInt(customerId.getText()), saveName, addressId, isActive, loggedInUser.getUserName());
+                    DAO.CustomerDaoImpl.updateCustomer(Integer.parseInt(customerId.getText()), saveName.toUpperCase(), addressId, isActive, loggedInUser.getUserName());
                     // Go through and remove any unused records
                     
                     // Check to see if the old address is still being used by any other customer
@@ -273,7 +273,7 @@ public class CustomerAddEditController implements Initializable {
 
                     
                 }else {
-                    System.out.println("test");
+
                     // NEW CUSTOMER RECORD
                     // If we are adding a new customer record altogether
                     referenceExists = false;      
@@ -291,7 +291,7 @@ public class CustomerAddEditController implements Initializable {
                     }
                     countryId = DAO.CountryDaoImpl.getCountry(saveCountry.toUpperCase()).getCountryId();
                     
-                    System.out.println("test");                        
+                      
                     referenceExists = false;      
                     // Check in city list if new city input already exists (say another customer is using it)
                     for(City city: CityList) {
@@ -307,7 +307,7 @@ public class CustomerAddEditController implements Initializable {
                         // Get cityId for new country added to City table                                                   
                     }
                     cityId = DAO.CityDaoImpl.getCity(saveCity.toUpperCase(), countryId).getCityId(); 
-                    System.out.println("test");
+;
                                         
                     referenceExists = false;      
                     // Check in address list if new address input already exists (say another customer is using it)
@@ -326,10 +326,10 @@ public class CustomerAddEditController implements Initializable {
                         DAO.AddressDaoImpl.addAddress(saveAddress.toUpperCase(), saveAddress2.toUpperCase(), cityId, savePostal.toUpperCase(), savePhone.toUpperCase(), loggedInUser.getUserName(), loggedInUser.getUserName());
                         // Get addressId for new address added to Address table                                                    
                     }
-                    System.out.println("test");
+
                     addressId = DAO.AddressDaoImpl.getAddress(saveAddress.toUpperCase(), saveAddress2.toUpperCase(), cityId, savePostal.toUpperCase(), savePhone.toUpperCase()).getAddressId();
-                    System.out.println("test");
-                    DAO.CustomerDaoImpl.addCustomer(saveName, addressId, isActive, loggedInUser.getUserName(), loggedInUser.getUserName());
+
+                    DAO.CustomerDaoImpl.addCustomer(saveName.toUpperCase(), addressId, isActive, loggedInUser.getUserName(), loggedInUser.getUserName());
                 }
                 
                 // After successful addition or modification
